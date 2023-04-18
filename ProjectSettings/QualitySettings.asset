@@ -18,7 +18,11 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+ Angelo_Figueroa
     skinWeights: 1
+
+    blendWeights: 1
+ main
     textureQuality: 1
     anisotropicTextures: 0
     antiAliasing: 0
@@ -40,7 +44,10 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
+ Angelo_Figueroa
     customRenderPipeline: {fileID: 11400000, guid: 574e423bb71c1b14cae304ce9106123f, type: 2}
+
+ main
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Low
@@ -54,7 +61,11 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+ Angelo_Figueroa
     skinWeights: 2
+
+    blendWeights: 2
+ main
     textureQuality: 0
     anisotropicTextures: 0
     antiAliasing: 0
@@ -76,7 +87,10 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
+ Angelo_Figueroa
     customRenderPipeline: {fileID: 11400000, guid: 6100d42b5c3c4144dba046ec7d1cf6ef, type: 2}
+
+ main
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Medium
@@ -90,7 +104,11 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+ Angelo_Figueroa
     skinWeights: 2
+
+    blendWeights: 2
+ main
     textureQuality: 0
     anisotropicTextures: 1
     antiAliasing: 0
@@ -112,7 +130,10 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
+ Angelo_Figueroa
     customRenderPipeline: {fileID: 11400000, guid: 0e8049dec4375224a8b947f4ac2c6709, type: 2}
+
+ main
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: High
@@ -126,7 +147,11 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+ Angelo_Figueroa
     skinWeights: 2
+
+    blendWeights: 2
+ main
     textureQuality: 0
     anisotropicTextures: 1
     antiAliasing: 0
@@ -148,7 +173,10 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
+ Angelo_Figueroa
     customRenderPipeline: {fileID: 11400000, guid: 4eb9ec3aa710ac14499250254f68d8bf, type: 2}
+
+ main
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Very High
@@ -162,7 +190,11 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+ Angelo_Figueroa
     skinWeights: 4
+
+    blendWeights: 4
+ main
     textureQuality: 0
     anisotropicTextures: 2
     antiAliasing: 2
@@ -184,7 +216,10 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
+ Angelo_Figueroa
     customRenderPipeline: {fileID: 11400000, guid: 54dc3c541f192ac4d996c5bbff657d39, type: 2}
+
+ main
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Ultra
@@ -198,7 +233,11 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+ Angelo_Figueroa
     skinWeights: 4
+
+    blendWeights: 4
+ main
     textureQuality: 0
     anisotropicTextures: 2
     antiAliasing: 2
@@ -220,6 +259,7 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
+ Angelo_Figueroa
     customRenderPipeline: {fileID: 11400000, guid: a20b9a10cb2d5cc4f87d35ee6dd0eabc, type: 2}
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
@@ -227,6 +267,14 @@ QualitySettings:
     GameCoreScarlett: 5
     GameCoreXboxOne: 5
     Lumin: 5
+
+    excludedTargetPlatforms: []
+  m_PerPlatformDefaultQuality:
+    Android: 2
+    Lumin: 5
+    GameCoreScarlett: 5
+    GameCoreXboxOne: 5
+ main
     Nintendo 3DS: 5
     Nintendo Switch: 5
     PS4: 5
