@@ -13,6 +13,7 @@ TagManager:
   - UI
   - 
   - 
+<<<<<<< Updated upstream:ProjectSettings/TagManager.asset
  Angelo_Figueroa
   - Tile
   - Hover
@@ -20,6 +21,10 @@ TagManager:
   - 
   - 
  main
+=======
+  - Tile
+  - Hover
+>>>>>>> Stashed changes:Term Project/ProjectSettings/TagManager.asset
   - 
   - 
   - 
