@@ -293,7 +293,6 @@ InputManager:
     type: 0
     axis: 0
     joyNum: 0
- Angelo_Figueroa
   - serializedVersion: 3
     m_Name: Enable Debug Button 1
     descriptiveName: 
@@ -487,5 +486,3 @@ InputManager:
     axis: 5
     joyNum: 0
   m_UsePhysicalKeys: 0
-
- main
