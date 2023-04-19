@@ -22,6 +22,10 @@ public class ChessBoard : MonoBehaviour
     private Camera currentCamera;
     private Vector2Int currentHover;
     private Vector3 bounds;
+    private Text text;
+    private int whiteTurn = 1;
+    private int allowed;
+    private ChessPiece selected;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +39,12 @@ public class ChessBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!currentCamera)
+        //Implementing turns with ai
+        if (whiteTurn == 0)
+        {
+
+        }
+        if (!currentCamera)
         {
             currentCamera = Camera.main;
             return;
@@ -68,6 +77,17 @@ public class ChessBoard : MonoBehaviour
             {
                 tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
                 currentHover = -Vector2Int.one;
+            }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (currentHover)
+            {
+
+            }
+            else
+            {
+                Capture(x, y);
             }
         }
     }
@@ -210,6 +230,42 @@ public class ChessBoard : MonoBehaviour
         }
        return -Vector2Int.one;
 
+    }
+    private void Capture(int x, int y)
+    {
+        if (allowed)
+        {
+            ChessPiece piece = chessPieces[x, y];
+            if (piece != null)
+            {
+                Destroy(piece);
+                if (piece.type == chessPieceType.King)
+                {
+                    endGame();
+                    return;
+                }
+            }
+            whiteTurn = 0;
+
+        }
+
+    }
+    private void endGame()
+    {
+        if (whiteTurn)
+        {
+            text.Text = "White team Won!";
+        }
+        else
+        {
+            text.Text = "Black team Won!";
+        }
+        foreach (ChessPiece piece in chessPieces)
+        {
+            Destroy(piece);
+        }
+        whiteTurn = 1;
+        SpawnAllPiece
     }
 
 }
