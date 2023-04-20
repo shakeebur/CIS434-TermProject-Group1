@@ -265,7 +265,7 @@ public class ChessBoard : MonoBehaviour
             Destroy(piece);
         }
         whiteTurn = 1;
-        SpawnAllPiece
+        SpawnAllPiece;
     }
 
 }
