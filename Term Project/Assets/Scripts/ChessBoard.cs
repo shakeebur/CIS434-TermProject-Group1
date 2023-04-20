@@ -22,10 +22,11 @@ public class ChessBoard : MonoBehaviour
     private Camera currentCamera;
     private Vector2Int currentHover;
     private Vector3 bounds;
-    private Text text;
+    //private Text text;
     private int whiteTurn = 1;
     private int allowed;
     private ChessPiece selected;
+    Vector2Int hitPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -40,11 +41,11 @@ public class ChessBoard : MonoBehaviour
     void Update()
     {
         //Implementing turns with ai
-        if (whiteTurn == 0)
+        if(whiteTurn == 0)
         {
 
         }
-        if (!currentCamera)
+        if(!currentCamera)
         {
             currentCamera = Camera.main;
             return;
@@ -55,7 +56,7 @@ public class ChessBoard : MonoBehaviour
         if(Physics.Raycast(ray, out info, 100, LayerMask.GetMask("Tile", "Hover")))
         {
             // get info for tiles hit
-            Vector2Int hitPosition = LookupTileIndex(info.transform.gameObject);
+            hitPosition = LookupTileIndex(info.transform.gameObject);
 
             //highlight tile that mouse is over 
             if(currentHover == -Vector2Int.one)
@@ -81,13 +82,13 @@ public class ChessBoard : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-            if (currentHover)
+            if(currentHover == hitPosition)
             {
 
             }
             else
             {
-                Capture(x, y);
+                Capture(currentHover.x, currentHover.y);
             }
         }
     }
@@ -231,15 +232,16 @@ public class ChessBoard : MonoBehaviour
        return -Vector2Int.one;
 
     }
+    
     private void Capture(int x, int y)
     {
-        if (allowed)
+        if (allowed == 1)
         {
             ChessPiece piece = chessPieces[x, y];
-            if (piece != null)
+            if(piece != null)
             {
                 Destroy(piece);
-                if (piece.type == chessPieceType.King)
+                if(piece.type == chessPieceType.King)
                 {
                     endGame();
                     return;
@@ -252,22 +254,29 @@ public class ChessBoard : MonoBehaviour
     }
     private void endGame()
     {
-        if (whiteTurn)
+        if (whiteTurn == 1)
         {
-            text.Text = "White team Won!";
+            //text.Text = "White team Won!";
+            Debug.Log("White team Won!");
         }
         else
         {
-            text.Text = "Black team Won!";
+            //text.Text = "Black team Won!";
+            Debug.Log("Black team Won!");
         }
         foreach (ChessPiece piece in chessPieces)
         {
             Destroy(piece);
         }
         whiteTurn = 1;
+<<<<<<< HEAD
         SpawnAllPiece;
+=======
+        SpawnAllPiece();
+>>>>>>> 8bc2cf5542205cace09bd450b358f5e407310fc7
     }
 
 }
+
 
 
