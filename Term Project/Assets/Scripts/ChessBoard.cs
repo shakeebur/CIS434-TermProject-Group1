@@ -254,18 +254,20 @@ public class ChessBoard : MonoBehaviour
     {
         if (whiteTurn)
         {
-            text.Text = "White team Won!";
+            //text.Text = "White team Won!";
+            Debug.log("White team Won!");
         }
         else
         {
-            text.Text = "Black team Won!";
+            //text.Text = "Black team Won!";
+            Debug.log("Black team Won!");
         }
         foreach (ChessPiece piece in chessPieces)
         {
             Destroy(piece);
         }
         whiteTurn = 1;
-        SpawnAllPiece
+        SpawnAllPiece();
     }
 
 }
