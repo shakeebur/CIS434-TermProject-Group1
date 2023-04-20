@@ -269,11 +269,8 @@ public class ChessBoard : MonoBehaviour
             Destroy(piece);
         }
         whiteTurn = 1;
-<<<<<<< HEAD
-        SpawnAllPiece;
-=======
         SpawnAllPiece();
->>>>>>> 8bc2cf5542205cace09bd450b358f5e407310fc7
+        SpawnAllPiece();
     }
 
 }
