@@ -15,4 +15,11 @@ public class Knight : ChessPiece
     {
         
     }
+
+    public override List<Vector2Int> findValidMoves()
+    {
+        validMoves.Clear();
+        validMoves.Add(new Vector2Int(currentX,currentY) + new Vector2Int(0,1));
+        return validMoves;
+    }
 }
