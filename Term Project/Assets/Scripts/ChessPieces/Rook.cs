@@ -13,7 +13,7 @@ public class Rook : ChessPiece
     // Update is called once per frame
     void Update()
     {
-        
+        findValidMoves();
     }
 
     public override List<Vector2Int> findValidMoves()

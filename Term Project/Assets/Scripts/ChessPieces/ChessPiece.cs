@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +30,7 @@ public abstract class ChessPiece : MonoBehaviour
     public List<Vector2Int> validMoves;
     private bool hasBeenMoved;
     
-    private ChessBoard board;
+    public ChessBoard board;
 
     //private Vector3 desiredPosition;
     //private Vector3 desiredScale;
@@ -38,6 +39,11 @@ public abstract class ChessPiece : MonoBehaviour
     {
         set_hasBeenMoved(false);
         validMoves = new List<Vector2Int>();
+    }
+
+    public void setBoard(ChessBoard board)
+    {
+        this.board = board;
     }
 
     public bool hasMoved()
@@ -51,8 +57,10 @@ public abstract class ChessPiece : MonoBehaviour
 
     public void move(Vector2Int location)
     {
+        Vector2Int old = new Vector2Int(currentX, currentY);
         currentX = location.x;
         currentY = location.y;
+        board.UpdateBoardAfterMove(this, location, old);
         set_hasBeenMoved(true);
     }
 }
