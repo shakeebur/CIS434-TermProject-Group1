@@ -13,7 +13,7 @@ public class Bishop : ChessPiece
     // Update is called once per frame
     void Update()
     {
-
+    
     }
 
     public override List<Vector2Int> findValidMoves()
@@ -26,7 +26,16 @@ public class Bishop : ChessPiece
             Vector2Int attempt = new Vector2Int(currentX+i, currentY+i);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
-                // TODO: add in a check here for other pieces in the way
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }
@@ -36,7 +45,16 @@ public class Bishop : ChessPiece
             Vector2Int attempt = new Vector2Int(currentX-j, currentY+j);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
-                // TODO: add in a check here for other pieces in the way
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }
@@ -46,7 +64,16 @@ public class Bishop : ChessPiece
             Vector2Int attempt = new Vector2Int(currentX-k, currentY-k);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
-                // TODO: add in a check here for other pieces in the way
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }
@@ -56,7 +83,16 @@ public class Bishop : ChessPiece
             Vector2Int attempt = new Vector2Int(currentX+z, currentY-z);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
-                // TODO: add in a check here for other pieces in the way
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }

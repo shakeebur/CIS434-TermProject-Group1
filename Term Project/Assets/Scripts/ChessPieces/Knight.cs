@@ -24,14 +24,16 @@ public class Knight : ChessPiece
         Vector2Int attempt = new Vector2Int(currentX+1, currentY+2);
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(!inTheWay(attempt))
+                validMoves.Add(attempt);
         }
 
         // y = +2, x = -1
         attempt.x = currentX-1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(!inTheWay(attempt))
+                validMoves.Add(attempt);
         }
 
         // y = +1, x = +2
@@ -39,14 +41,16 @@ public class Knight : ChessPiece
         attempt.y = currentY+1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(!inTheWay(attempt))
+                validMoves.Add(attempt);
         }
 
         // y = -1, x = +2
         attempt.y = currentY-1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(!inTheWay(attempt))
+                validMoves.Add(attempt);
         }
         //
         // y = -2, x = +1
@@ -54,14 +58,16 @@ public class Knight : ChessPiece
         attempt.x = currentX+1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(!inTheWay(attempt))
+                validMoves.Add(attempt);
         }
 
         // y = -2, x = -1
         attempt.x = currentX-1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(!inTheWay(attempt))
+                validMoves.Add(attempt);
         }
 
         // y = +1, x = -2
@@ -69,14 +75,16 @@ public class Knight : ChessPiece
         attempt.y = currentY+1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(!inTheWay(attempt))
+                validMoves.Add(attempt);
         }
 
         // y = -1, x = -2
         attempt.y = currentY-1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(!inTheWay(attempt))
+                validMoves.Add(attempt);
         }
 
         return validMoves;

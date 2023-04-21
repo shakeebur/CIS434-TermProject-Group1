@@ -16,7 +16,52 @@ public class Pawn : ChessPiece
 
     }
 
-    public override List<Vector2Int> findValidMoves()
+    private void blackMoves()
+    {
+        validMoves.Clear();
+
+        // y = -1, x = +0
+        Vector2Int attempt = new Vector2Int(currentX, currentY-1);
+        if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
+        {
+            if(inTheWay(attempt) || enemyPiece(attempt)){}
+            else { validMoves.Add(attempt); }   
+        }
+
+        // If this pawn has not been moved yet this game, it can move 2 spaces forward
+
+        if(!hasMoved())
+        {
+            // y-2, x=0
+            attempt.x = currentX;
+            attempt.y = currentY-2;
+            if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
+            {
+                if(inTheWay(new Vector2Int(currentX, currentY-1)) || inTheWay(attempt) || enemyPiece(attempt)
+                    || enemyPiece(new Vector2Int(currentX, currentY-1))){}
+                else { validMoves.Add(attempt); }   
+            }
+        }
+
+        // Pawn can move diagonally only to capture an enemy piece
+
+        // y = -1, x = +1
+        attempt.x = currentX+1;
+        attempt.y = currentY-1;
+        if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
+        {
+            if(enemyPiece(attempt)){ validMoves.Add(attempt); }
+        }
+        // y = -1, x = -1
+        attempt.x = currentX-1;
+        attempt.y = currentY-1;
+        if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
+        {
+            if(enemyPiece(attempt)){ validMoves.Add(attempt); }
+        }
+    }
+
+    private void whiteMoves()
     {
         validMoves.Clear();
 
@@ -24,23 +69,48 @@ public class Pawn : ChessPiece
         Vector2Int attempt = new Vector2Int(currentX, currentY+1);
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(inTheWay(attempt) || enemyPiece(attempt)){}
+            else { validMoves.Add(attempt); }   
         }
 
-        // These moves need to be limited to 
+        // If this pawn has not been moved yet this game, it can move 2 spaces forward
+
+        if(!hasMoved())
+        {
+            attempt.x = currentX;
+            attempt.y = currentY+2;
+            if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
+            {
+                if(inTheWay(new Vector2Int(currentX, currentY+1)) || inTheWay(attempt) || enemyPiece(attempt)
+                    || enemyPiece(new Vector2Int(currentX , currentY+1))){}
+                else { validMoves.Add(attempt); }   
+            }
+        }
+
+        // Pawn can move diagonally only to capture an enemy piece
 
         // y = +1, x = +1
         attempt.x = currentX+1;
+        attempt.y = currentY+1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(enemyPiece(attempt)){ validMoves.Add(attempt); }
         }
         // y = +1, x = -1
         attempt.x = currentX-1;
+        attempt.y = currentY+1;
         if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
         {
-            validMoves.Add(attempt);
+            if(enemyPiece(attempt)){ validMoves.Add(attempt); }
         }
+    }
+
+    public override List<Vector2Int> findValidMoves()
+    {
+        if(team == 0){ whiteMoves(); }
+        else if (team == 1){ blackMoves(); }
+        else { return null; }
+
         return validMoves;
     }
 }
