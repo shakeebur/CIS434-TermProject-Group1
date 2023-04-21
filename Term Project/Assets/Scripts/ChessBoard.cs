@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -166,7 +165,7 @@ public class ChessBoard : MonoBehaviour
 
         cp.type = type;
         cp.team = team;
-        cp.setBoard(this);
+
         cp.GetComponent<MeshRenderer>().material = teamMaterial[team];
 
         return cp;
@@ -213,18 +212,4 @@ public class ChessBoard : MonoBehaviour
        return -Vector2Int.one;
 
     }
-
-    public void UpdateBoardAfterMove(ChessPiece piece, Vector2Int newMove, Vector2Int oldLoc)
-    {
-        chessPieces[oldLoc.x, oldLoc.y] = null;
-        chessPieces[newMove.x, newMove.y] = piece;
-    }
-
-    public ChessPiece getPieceOnBoard(Vector2Int loc)
-    {
-        return chessPieces[loc.x, loc.y];
-    }
-
 }
-
-

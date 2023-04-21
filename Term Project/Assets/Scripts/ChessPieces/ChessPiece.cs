@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,10 +56,8 @@ public abstract class ChessPiece : MonoBehaviour
 
     public void move(Vector2Int location)
     {
-        Vector2Int old = new Vector2Int(currentX, currentY);
         currentX = location.x;
         currentY = location.y;
-        board.UpdateBoardAfterMove(this, location, old);
         set_hasBeenMoved(true);
     }
 }
