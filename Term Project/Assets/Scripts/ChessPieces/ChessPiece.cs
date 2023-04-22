@@ -13,6 +13,8 @@ public enum chessPieceType
     King = 6
 }
 
+
+
 public abstract class ChessPiece : MonoBehaviour
 {
     public abstract List<Vector2Int> findValidMoves();
