@@ -32,10 +32,10 @@ public class ChessBoard : MonoBehaviour
     void Start()
     {
         GenerateBoard(tileSize, Tile_Count_X, Tile_Count_Y);
-
         SpawnAllPiece();
         PositionAllPieces();
     }
+
 
     // Update is called once per frame
     void Update()
@@ -272,6 +272,8 @@ public class ChessBoard : MonoBehaviour
         SpawnAllPiece();
         SpawnAllPiece();
     }
+    
+
 
 }
 
