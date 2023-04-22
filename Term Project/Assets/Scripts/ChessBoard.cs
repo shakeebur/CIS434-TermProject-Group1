@@ -14,6 +14,8 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private GameObject[] prefabs;
     [SerializeField] private Material[] teamMaterial;
 
+    private Color defaultColor;
+    private Color hoverColor;
 
     private ChessPiece[,] chessPieces;
     private const int Tile_Count_X = 8;
@@ -31,6 +33,9 @@ public class ChessBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        defaultColor = tileMaterial.color;
+        hoverColor = Color.red;
+
         GenerateBoard(tileSize, Tile_Count_X, Tile_Count_Y);
         SpawnAllPiece();
         PositionAllPieces();
@@ -63,13 +68,17 @@ public class ChessBoard : MonoBehaviour
             {
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
+                tiles[hitPosition.x, hitPosition.y].GetComponent<MeshRenderer>().material.color = hoverColor;
             }
             //get rid of old highlit tile when hovering over new tile
             if(currentHover != hitPosition)
             {
                 tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
+                tiles[currentHover.x, currentHover.y].GetComponent<MeshRenderer>().material.color = defaultColor;
+
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
+                tiles[hitPosition.x, hitPosition.y].GetComponent<MeshRenderer>().material.color = hoverColor;
             }
         }
         else
@@ -77,6 +86,8 @@ public class ChessBoard : MonoBehaviour
             if(currentHover != -Vector2Int.one)
             {
                 tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
+                tiles[currentHover.x, currentHover.y].GetComponent<MeshRenderer>().material.color = defaultColor;
+                
                 currentHover = -Vector2Int.one;
             }
         }
