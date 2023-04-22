@@ -20,46 +20,89 @@ public class Queen : ChessPiece
     {
         validMoves.Clear();
         
+        // Diagonal Movements
+
         for(int i = 1; i <= MOVE_RANGE; i++)
         {
             // +x and +y
             Vector2Int attempt = new Vector2Int(currentX+i, currentY+i);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
-                // TODO: add in a check here for other pieces in the way
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }
+
         for(int j = 1; j <= MOVE_RANGE; j++)
         {
             // -x and +y
             Vector2Int attempt = new Vector2Int(currentX-j, currentY+j);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
-                // TODO: add in a check here for other pieces in the way
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }
+
         for(int k = 1; k <= MOVE_RANGE; k++)
         {
             // -x and -y
             Vector2Int attempt = new Vector2Int(currentX-k, currentY-k);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
-                // TODO: add in a check here for other pieces in the way
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }
+
         for(int z = 1; z <= MOVE_RANGE; z++)
         {
             // +x and -y
             Vector2Int attempt = new Vector2Int(currentX+z, currentY-z);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
-                // TODO: add in a check here for other pieces in the way
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }
+
+        // Horizontal and Vertical movement
 
         for(int m = 1; m <= MOVE_RANGE; m++)
         {
@@ -67,28 +110,72 @@ public class Queen : ChessPiece
             Vector2Int attempt = new Vector2Int(currentX+m, currentY);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
+        }
 
+        for(int n = 1; n <= MOVE_RANGE; n++)
+        {
             // -x and y=0
-            attempt.x = currentX-m;
+            Vector2Int attempt = new Vector2Int(currentX-n, currentY);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
+        }
 
+        for(int p = 1; p <= MOVE_RANGE; p++)
+        {
             // x=0 and +y
-            attempt.x = currentX;
-            attempt.y = currentY+m;
+            Vector2Int attempt = new Vector2Int(currentX, currentY+p);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
+        }
 
+        for(int r = 1; r <= MOVE_RANGE; r++)
+        {
             // x=0 and -y
-            attempt.y = currentY-m;
+            Vector2Int attempt = new Vector2Int(currentX, currentY-r);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }

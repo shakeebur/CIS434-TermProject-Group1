@@ -26,28 +26,73 @@ public class Rook : ChessPiece
             Vector2Int attempt = new Vector2Int(currentX+i, currentY);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
+                // check here for other pieces in the way
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
+        }
 
+        for(int j = 1; j <= MOVE_RANGE; j++)
+        {
             // -x and y=0
-            attempt.x = currentX-i;
+           Vector2Int attempt = new Vector2Int(currentX-j, currentY);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
+        }
 
+        for(int k = 1; k <= MOVE_RANGE; k++)
+        {
             // x=0 and +y
-            attempt.x = currentX;
-            attempt.y = currentY+i;
+            Vector2Int attempt = new Vector2Int(currentX, currentY+k);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
+        }
 
+        for(int z = 1; z <= MOVE_RANGE; z++)
+        {
             // x=0 and -y
-            attempt.y = currentY-i;
+            Vector2Int attempt = new Vector2Int(currentX, currentY-z);
             if((attempt.x >= 0 && attempt.y >= 0) && (attempt.x <= MOVE_RANGE && attempt.y <= MOVE_RANGE))
             {
+                if(inTheWay(attempt))
+                {
+                    break;
+                }
+                if(enemyPiece(attempt))
+                {
+                    validMoves.Add(attempt);
+                    break;
+                }
                 validMoves.Add(attempt);
             }
         }

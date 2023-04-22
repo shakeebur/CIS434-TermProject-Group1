@@ -56,8 +56,39 @@ public abstract class ChessPiece : MonoBehaviour
 
     public void move(Vector2Int location)
     {
+        Vector2Int old_loc = new Vector2Int(currentX, currentY);
+
         currentX = location.x;
         currentY = location.y;
+
+        board.UpdateBoardAfterMove(this, location, old_loc);
+
         set_hasBeenMoved(true);
+    }
+
+    public bool enemyPiece(Vector2Int loc)
+    {
+        ChessPiece piece = this.board.getPieceOnBoard(new Vector2Int(loc.x, loc.y));
+        if(piece)
+        {
+            if(piece.team != this.team)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool inTheWay(Vector2Int loc)
+    {
+        ChessPiece piece = this.board.getPieceOnBoard(new Vector2Int(loc.x, loc.y));
+        if(piece)
+        {
+            if(piece.team == this.team)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
