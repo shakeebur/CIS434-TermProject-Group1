@@ -53,16 +53,20 @@ public abstract class ChessPiece : MonoBehaviour
             transform.localScale = desiredScale;
         }
     }
+
+    public int currentX;
+    public int currentY;
     public List<Vector2Int> validMoves;
     private bool hasBeenMoved;
     
     public ChessBoard board;
 
-<<<<<<< Updated upstream
-=======
 
 
->>>>>>> Stashed changes
+
+    //private Vector3 desiredPosition;
+    //private Vector3 desiredScale;
+
     private void Awake()
     {
         set_hasBeenMoved(false);

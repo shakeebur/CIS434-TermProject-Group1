@@ -17,6 +17,13 @@ public class ChessBoard : MonoBehaviour
     private Color defaultColor;
     private Color hoverColor;
 
+    private Player whitePlayer;
+    private Player blackPlayer;
+    private Player currentPlayer;
+    private const int WHITETEAM = 0;
+    private const int BLACKTEAM = 1;
+
+
     private ChessPiece[,] chessPieces;
     private ChessPiece currentyDragging;
     private const int Tile_Count_X = 8;
@@ -25,17 +32,33 @@ public class ChessBoard : MonoBehaviour
     private Camera currentCamera;
     private Vector2Int currentHover;
     private Vector3 bounds;
+
     //private Text text;
     private int whiteTurn = 1;
     private int allowed;
+
     private ChessPiece selected;
     Vector2Int hitPosition;
 
     // Start is called before the first frame update
+
     void Start()
+
+   void Start()
+
     {
         defaultColor = tileMaterial.color;
         hoverColor = Color.red;
+
+
+        startNewGame();
+    }
+
+    public void startNewGame()
+    {
+        whitePlayer = new Player(this, WHITETEAM);
+        blackPlayer = new Player(this, BLACKTEAM);
+        currentPlayer = whitePlayer;
 
         GenerateBoard(tileSize, Tile_Count_X, Tile_Count_Y);
         SpawnAllPiece();
@@ -47,7 +70,10 @@ public class ChessBoard : MonoBehaviour
     void Update()
     {
         //Implementing turns with ai
+
         if(whiteTurn == 0)
+
+        if(currentPlayer == blackPlayer)
         {
 
         }
@@ -106,7 +132,11 @@ public class ChessBoard : MonoBehaviour
                bool validMove = MoveTo(currentyDragging, hitPosition.x, hitPosition.y);
                if (!validMove)
                 {
+
                     currentyDragging.SetPosition(GetTileCenter(previousPosition.x, previousPosition.y));
+
+                    currentyDragging.transform.position = GetTileCenter(previousPosition.x, previousPosition.y);
+
                     currentyDragging = null;
                }
                else
@@ -125,14 +155,13 @@ public class ChessBoard : MonoBehaviour
                 
                 currentHover = -Vector2Int.one;
             }
-<<<<<<< Updated upstream
+
             if(currentyDragging && Input.GetMouseButtonUp(0))
             {
-=======
+
             if( currentyDragging && Input.GetMouseButtonUp(0))
             {
                 currentyDragging.SetPosition(GetTileCenter(currentyDragging.currentX, currentyDragging.currentY));
->>>>>>> Stashed changes
                 currentyDragging = null;
             }
         }
@@ -224,6 +253,36 @@ public class ChessBoard : MonoBehaviour
         for (int i = 0; i < Tile_Count_X; i++)
         {
             chessPieces[i,6] = SpawnSinglePiece(chessPieceType.Pawn, BlackTeam);
+        //White Team
+        chessPieces[0,0] = SpawnSinglePiece(chessPieceType.Rook, WHITETEAM);
+        chessPieces[1,0] = SpawnSinglePiece(chessPieceType.Knight, WHITETEAM);
+        chessPieces[2,0] = SpawnSinglePiece(chessPieceType.Bishop, WHITETEAM);
+        chessPieces[3,0] = SpawnSinglePiece(chessPieceType.Queen, WHITETEAM);
+        chessPieces[4,0] = SpawnSinglePiece(chessPieceType.King, WHITETEAM);
+        chessPieces[5,0] = SpawnSinglePiece(chessPieceType.Bishop, WHITETEAM);
+        chessPieces[6,0] = SpawnSinglePiece(chessPieceType.Knight, WHITETEAM);
+        chessPieces[7,0] = SpawnSinglePiece(chessPieceType.Rook, WHITETEAM);
+        for (int i = 0; i < Tile_Count_X; i++)
+        {
+            chessPieces[i,1] = SpawnSinglePiece(chessPieceType.Pawn, WHITETEAM);
+            whitePlayer.setPiece(chessPieces[i,0]);
+            whitePlayer.setPiece(chessPieces[i,1]);
+        }
+
+        //Black Team
+        chessPieces[0,7] = SpawnSinglePiece(chessPieceType.Rook, BLACKTEAM);
+        chessPieces[1,7] = SpawnSinglePiece(chessPieceType.Knight, BLACKTEAM);
+        chessPieces[2,7] = SpawnSinglePiece(chessPieceType.Bishop, BLACKTEAM);
+        chessPieces[3,7] = SpawnSinglePiece(chessPieceType.Queen, BLACKTEAM);
+        chessPieces[4,7] = SpawnSinglePiece(chessPieceType.King, BLACKTEAM);
+        chessPieces[5,7] = SpawnSinglePiece(chessPieceType.Bishop, BLACKTEAM);
+        chessPieces[6,7] = SpawnSinglePiece(chessPieceType.Knight, BLACKTEAM);
+        chessPieces[7,7] = SpawnSinglePiece(chessPieceType.Rook, BLACKTEAM);
+        for (int i = 0; i < Tile_Count_X; i++)
+        {
+            chessPieces[i,6] = SpawnSinglePiece(chessPieceType.Pawn, BLACKTEAM);
+            blackPlayer.setPiece(chessPieces[i,7]);
+            blackPlayer.setPiece(chessPieces[i,6]);
         }
     }
 
@@ -287,6 +346,7 @@ public class ChessBoard : MonoBehaviour
      chessPieces[previousPosition.x, previousPosition.y] = null;
      PositionSinglePiece(x, y);
 
+     passTheTurn();
      return true; 
     }
     private Vector2Int LookupTileIndex(GameObject hitInfo)
@@ -307,6 +367,7 @@ public class ChessBoard : MonoBehaviour
     
     private void Capture(int x, int y)
     {
+
         if (allowed == 1)
         {
             ChessPiece piece = chessPieces[x, y];
@@ -327,6 +388,27 @@ public class ChessBoard : MonoBehaviour
     private void endGame()
     {
         if (whiteTurn == 1)
+        ChessPiece piece = chessPieces[x, y];
+
+        if(piece != null)
+        {
+            if(piece.team != currentPlayer.getTeam())
+            {
+              Destroy(piece);
+              if(piece.type == chessPieceType.King)
+              {
+                endGame();
+                return;
+              }
+            }
+        }
+
+        passTheTurn();
+    }
+
+    private void endGame()
+    {
+        if (currentPlayer == whitePlayer)
         {
             //text.Text = "White team Won!";
             Debug.Log("White team Won!");
@@ -346,6 +428,9 @@ public class ChessBoard : MonoBehaviour
     }
     
 
+        SpawnAllPiece();
+        SpawnAllPiece();
+    }
 
     public void UpdateBoardAfterMove(ChessPiece piece, Vector2Int newMove, Vector2Int oldLoc)
     {
@@ -356,5 +441,17 @@ public class ChessBoard : MonoBehaviour
     public ChessPiece getPieceOnBoard(Vector2Int loc)
     {
         return chessPieces[loc.x, loc.y];
+    }
+
+    public void passTheTurn()
+    {
+        if(currentPlayer == whitePlayer)
+        {
+            currentPlayer = blackPlayer;
+        }
+        else
+        {
+            currentPlayer = whitePlayer;
+        }
     }
 }
