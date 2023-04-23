@@ -31,6 +31,11 @@ public abstract class ChessPiece : MonoBehaviour
     private Vector3 desiredPosition;
     private Vector3 desiredScale = Vector3.one;
 
+    public List<Vector2Int> validMoves;
+    private bool hasBeenMoved;
+    
+    public ChessBoard board;
+
     private void update()
     {
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10);
@@ -54,13 +59,6 @@ public abstract class ChessPiece : MonoBehaviour
             transform.localScale = desiredScale;
         }
     }
-    public List<Vector2Int> validMoves;
-    private bool hasBeenMoved;
-    
-    public ChessBoard board;
-
-    //private Vector3 desiredPosition;
-    //private Vector3 desiredScale;
 
     private void Awake()
     {
@@ -84,20 +82,20 @@ public abstract class ChessPiece : MonoBehaviour
 
     public void move(Vector2Int location)
     {
-        Vector2Int old_loc = new Vector2Int(currentX, currentY);
+        //Vector2Int old_loc = new Vector2Int(currentX, currentY);
 
-        currentX = location.x;
-        currentY = location.y;
+        //currentX = location.x;
+        //currentY = location.y;
 
-        board.UpdateBoardAfterMove(this, location, old_loc);
-
+        //board.UpdateBoardAfterMove(this, location, old_loc);
+        //findValidMoves();
         set_hasBeenMoved(true);
     }
 
     public bool enemyPiece(Vector2Int loc)
     {
         ChessPiece piece = this.board.getPieceOnBoard(new Vector2Int(loc.x, loc.y));
-        if(piece)
+        if(piece != null)
         {
             if(piece.team != this.team)
             {
@@ -110,7 +108,7 @@ public abstract class ChessPiece : MonoBehaviour
     public bool inTheWay(Vector2Int loc)
     {
         ChessPiece piece = this.board.getPieceOnBoard(new Vector2Int(loc.x, loc.y));
-        if(piece)
+        if(piece != null)
         {
             if(piece.team == this.team)
             {
