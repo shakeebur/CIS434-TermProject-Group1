@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class ChessBoard : MonoBehaviour
 {
@@ -39,7 +41,6 @@ public class ChessBoard : MonoBehaviour
     // Start is called before the first frame update
    void Start()
     {
-        isWhiteTurn = true;
         defaultColor = tileMaterial.color;
         hoverColor = Color.red;
 
@@ -51,6 +52,7 @@ public class ChessBoard : MonoBehaviour
         whitePlayer = new Player(this, WHITETEAM);
         blackPlayer = new Player(this, BLACKTEAM);
         currentPlayer = whitePlayer;
+        isWhiteTurn = true;
 
         GenerateBoard(tileSize, Tile_Count_X, Tile_Count_Y);
         SpawnAllPiece();
@@ -354,23 +356,31 @@ public class ChessBoard : MonoBehaviour
 
     private void endGame()
     {
+        // TODO: For use in game-over dialog box
+        bool newGame = true;
+
         if (currentPlayer == whitePlayer)
         {
-            //text.Text = "White team Won!";
             Debug.Log("White team Won!");
+            clearBoard(newGame);
         }
         else
         {
-            //text.Text = "Black team Won!";
             Debug.Log("Black team Won!");
+            clearBoard(newGame);
         }
-        /*
+    }
+
+    public void clearBoard(bool newGame)
+    {
         foreach (ChessPiece piece in chessPieces)
         {
             if(piece != null)
                 destroyPiece(piece);
         }
-        */
+
+        SceneManager.LoadScene("Menu");
+        
     }
 
     public ChessPiece getPieceOnBoard(Vector2Int loc)
