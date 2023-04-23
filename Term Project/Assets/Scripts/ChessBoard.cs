@@ -103,7 +103,7 @@ public class ChessBoard : MonoBehaviour
                 if(chessPieces[hitPosition.x, hitPosition.y] != null)
                 {
                     //is it our turn
-                    if((chessPieces[hitPosition.x, hitPosition.y].team == 0 && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == 1 && !isWhiteTurn))
+                    if((chessPieces[hitPosition.x, hitPosition.y].team == WHITETEAM && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == BLACKTEAM && !isWhiteTurn))
                    {
                        currentyDragging = chessPieces[hitPosition.x, hitPosition.y];
                    }
@@ -129,8 +129,7 @@ public class ChessBoard : MonoBehaviour
                 currentyDragging = null;
                }
            }
-        }
-        
+        }      
         else
         {
             if(currentHover != -Vector2Int.one)
@@ -140,12 +139,8 @@ public class ChessBoard : MonoBehaviour
                 
                 currentHover = -Vector2Int.one;
             }
-        }
-        
+        }       
     }
-
-
-
 
     //Create the Board
     private void GenerateBoard(float tileSize, int tileCountX, int tileCountY)
@@ -260,6 +255,7 @@ public class ChessBoard : MonoBehaviour
                 }
             }
         }
+        UpdateBoardAfterMove();
     }
     private void PositionSinglePiece(int x, int y, bool force = false)
     {
@@ -277,6 +273,11 @@ public class ChessBoard : MonoBehaviour
     {
      Vector2Int previousPosition = new Vector2Int(cp.currentX, cp.currentY);  
 
+        // Is the propsed move valid?
+        if(!cp.validMoves.Contains(new Vector2Int(x,y)))
+        {
+            return false;
+        }
         //is there a piece on the space
         if(chessPieces[x, y] != null)
         {
@@ -286,19 +287,31 @@ public class ChessBoard : MonoBehaviour
             {
                 return false;
             }
-
-            //if enemy piece
         }
 
-     chessPieces[x, y] = cp;
-     chessPieces[previousPosition.x, previousPosition.y] = null;
-     PositionSinglePiece(x, y);
+        chessPieces[x, y] = cp;
+        chessPieces[previousPosition.x, previousPosition.y] = null;
+        
+        PositionSinglePiece(x, y);
+        UpdateBoardAfterMove();
 
-     isWhiteTurn = !isWhiteTurn;
+        cp.move(new Vector2Int(x,y));
 
-     passTheTurn();
-     return true; 
+        passTheTurn();
+        return true; 
     }
+
+    public void UpdateBoardAfterMove()
+    {
+        foreach(ChessPiece cp in chessPieces)
+        {
+            if(cp != null)
+            {
+                cp.findValidMoves();
+            }
+        }
+    }
+
     private Vector2Int LookupTileIndex(GameObject hitInfo)
     {
         for (int x = 0; x < Tile_Count_X; x++)
@@ -323,12 +336,12 @@ public class ChessBoard : MonoBehaviour
         {
             if(piece.team != currentPlayer.getTeam())
             {
-              Destroy(piece);
-              if(piece.type == chessPieceType.King)
-              {
-                endGame();
-                return;
-              }
+                if(piece.type == chessPieceType.King)
+                {
+                    endGame();
+                    return;
+                }
+                Destroy(piece);
             }
         }
 
@@ -355,15 +368,16 @@ public class ChessBoard : MonoBehaviour
         SpawnAllPiece();
     }
 
-    public void UpdateBoardAfterMove(ChessPiece piece, Vector2Int newMove, Vector2Int oldLoc)
-    {
-        chessPieces[oldLoc.x, oldLoc.y] = null;
-        chessPieces[newMove.x, newMove.y] = piece;
-    }
-
     public ChessPiece getPieceOnBoard(Vector2Int loc)
     {
-        return chessPieces[loc.x, loc.y];
+        if(chessPieces[loc.x, loc.y] == null)
+        {
+            return null;
+        }
+        else
+        {
+            return chessPieces[loc.x, loc.y];
+        }
     }
 
     public void passTheTurn()
@@ -371,10 +385,12 @@ public class ChessBoard : MonoBehaviour
         if(currentPlayer == whitePlayer)
         {
             currentPlayer = blackPlayer;
+            isWhiteTurn = false;
         }
         else
         {
             currentPlayer = whitePlayer;
+            isWhiteTurn = true;
         }
     }
 }
