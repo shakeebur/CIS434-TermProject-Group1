@@ -13,7 +13,7 @@ public class Knight : ChessPiece
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public override List<Vector2Int> findValidMoves()

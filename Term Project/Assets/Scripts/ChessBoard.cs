@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class ChessBoard : MonoBehaviour
 {
@@ -39,7 +41,6 @@ public class ChessBoard : MonoBehaviour
     // Start is called before the first frame update
    void Start()
     {
-        isWhiteTurn = true;
         defaultColor = tileMaterial.color;
         hoverColor = Color.red;
 
@@ -51,6 +52,7 @@ public class ChessBoard : MonoBehaviour
         whitePlayer = new Player(this, WHITETEAM);
         blackPlayer = new Player(this, BLACKTEAM);
         currentPlayer = whitePlayer;
+        isWhiteTurn = true;
 
         GenerateBoard(tileSize, Tile_Count_X, Tile_Count_Y);
         SpawnAllPiece();
@@ -103,20 +105,22 @@ public class ChessBoard : MonoBehaviour
                 if(chessPieces[hitPosition.x, hitPosition.y] != null)
                 {
                     //is it our turn
-                    if((chessPieces[hitPosition.x, hitPosition.y].team == 0 && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == 1 && !isWhiteTurn))
+                    if((chessPieces[hitPosition.x, hitPosition.y].team == WHITETEAM && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == BLACKTEAM && !isWhiteTurn))
                    {
                        currentyDragging = chessPieces[hitPosition.x, hitPosition.y];
                    }
                 }
-                // else
-                // {
-                //     Capture(currentHover.x, currentHover.y);
-                // }
             }
             //release mouse button
            if (currentyDragging != null && Input.GetMouseButtonUp(0))
            {
-               Vector2Int previousPosition = new Vector2Int(currentyDragging.currentX, currentyDragging.currentY);
+                Vector2Int previousPosition = new Vector2Int(currentyDragging.currentX, currentyDragging.currentY);
+                ChessPiece enemy = null;
+
+               if(chessPieces[hitPosition.x, hitPosition.y] != null)
+               {
+                    enemy = chessPieces[hitPosition.x, hitPosition.y];
+               }
 
                bool validMove = MoveTo(currentyDragging, hitPosition.x, hitPosition.y);
                if (!validMove)
@@ -126,11 +130,12 @@ public class ChessBoard : MonoBehaviour
                }
                else
                {
-                currentyDragging = null;
+                    Capture(enemy);
+                    currentyDragging = null;
+                    passTheTurn();
                }
            }
-        }
-        
+        }      
         else
         {
             if(currentHover != -Vector2Int.one)
@@ -140,12 +145,8 @@ public class ChessBoard : MonoBehaviour
                 
                 currentHover = -Vector2Int.one;
             }
-        }
-        
+        }       
     }
-
-
-
 
     //Create the Board
     private void GenerateBoard(float tileSize, int tileCountX, int tileCountY)
@@ -260,6 +261,7 @@ public class ChessBoard : MonoBehaviour
                 }
             }
         }
+        UpdateBoardAfterMove();
     }
     private void PositionSinglePiece(int x, int y, bool force = false)
     {
@@ -277,6 +279,11 @@ public class ChessBoard : MonoBehaviour
     {
      Vector2Int previousPosition = new Vector2Int(cp.currentX, cp.currentY);  
 
+        // Is the propsed move valid?
+        if(!cp.validMoves.Contains(new Vector2Int(x,y)))
+        {
+            return false;
+        }
         //is there a piece on the space
         if(chessPieces[x, y] != null)
         {
@@ -286,19 +293,30 @@ public class ChessBoard : MonoBehaviour
             {
                 return false;
             }
-
-            //if enemy piece
         }
 
-     chessPieces[x, y] = cp;
-     chessPieces[previousPosition.x, previousPosition.y] = null;
-     PositionSinglePiece(x, y);
+        chessPieces[x, y] = cp;
+        chessPieces[previousPosition.x, previousPosition.y] = null;
+        
+        PositionSinglePiece(x, y);
+        UpdateBoardAfterMove();
 
-     isWhiteTurn = !isWhiteTurn;
+        cp.move(new Vector2Int(x,y));
 
-     passTheTurn();
-     return true; 
+        return true; 
     }
+
+    public void UpdateBoardAfterMove()
+    {
+        foreach(ChessPiece cp in chessPieces)
+        {
+            if(cp != null)
+            {
+                cp.findValidMoves();
+            }
+        }
+    }
+
     private Vector2Int LookupTileIndex(GameObject hitInfo)
     {
         for (int x = 0; x < Tile_Count_X; x++)
@@ -314,56 +332,73 @@ public class ChessBoard : MonoBehaviour
        return -Vector2Int.one;
 
     }
-    
-    private void Capture(int x, int y)
-    {
-        ChessPiece piece = chessPieces[x, y];
 
+    // private void Capture(int x, int y)
+    private void Capture(ChessPiece piece)
+    {
         if(piece != null)
         {
             if(piece.team != currentPlayer.getTeam())
             {
-              Destroy(piece);
-              if(piece.type == chessPieceType.King)
-              {
-                endGame();
-                return;
-              }
+                if(piece.type == chessPieceType.King)
+                {
+                    destroyPiece(piece);
+                    endGame();
+                    return;
+                }
+                else
+                {
+                    destroyPiece(piece);
+                }
             }
         }
-
-        passTheTurn();
     }
 
     private void endGame()
     {
+        // TODO: For use in game-over dialog box
+        bool newGame = true;
+
         if (currentPlayer == whitePlayer)
         {
-            //text.Text = "White team Won!";
             Debug.Log("White team Won!");
+            clearBoard(newGame);
         }
         else
         {
-            //text.Text = "Black team Won!";
             Debug.Log("Black team Won!");
+            clearBoard(newGame);
         }
-        foreach (ChessPiece piece in chessPieces)
-        {
-            Destroy(piece);
-        }
-        SpawnAllPiece();
-        SpawnAllPiece();
     }
 
-    public void UpdateBoardAfterMove(ChessPiece piece, Vector2Int newMove, Vector2Int oldLoc)
+    public void clearBoard(bool newGame)
     {
-        chessPieces[oldLoc.x, oldLoc.y] = null;
-        chessPieces[newMove.x, newMove.y] = piece;
+        foreach (ChessPiece piece in chessPieces)
+        {
+            if(piece != null)
+                destroyPiece(piece);
+        }
+
+        SceneManager.LoadScene("Menu");
+        
     }
 
     public ChessPiece getPieceOnBoard(Vector2Int loc)
     {
-        return chessPieces[loc.x, loc.y];
+        if(chessPieces[loc.x, loc.y] == null)
+        {
+            return null;
+        }
+        else
+        {
+            return chessPieces[loc.x, loc.y];
+        }
+    }
+
+    public void destroyPiece(ChessPiece piece)
+    {
+        piece.gameObject.SetActive(false);
+        Destroy(piece);
     }
 
     public void passTheTurn()
@@ -371,10 +406,12 @@ public class ChessBoard : MonoBehaviour
         if(currentPlayer == whitePlayer)
         {
             currentPlayer = blackPlayer;
+            isWhiteTurn = false;
         }
         else
         {
             currentPlayer = whitePlayer;
+            isWhiteTurn = true;
         }
     }
 }
