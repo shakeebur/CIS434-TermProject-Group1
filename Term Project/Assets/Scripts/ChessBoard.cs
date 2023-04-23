@@ -36,7 +36,7 @@ public class ChessBoard : MonoBehaviour
     Vector2Int hitPosition;
 
     // Start is called before the first frame update
-    void Start()
+   void Start()
     {
         defaultColor = tileMaterial.color;
         hoverColor = Color.red;
@@ -228,7 +228,6 @@ public class ChessBoard : MonoBehaviour
             chessPieces[i,6] = SpawnSinglePiece(chessPieceType.Pawn, BLACKTEAM);
             blackPlayer.setPiece(chessPieces[i,7]);
             blackPlayer.setPiece(chessPieces[i,6]);
-
         }
     }
 
@@ -280,6 +279,7 @@ public class ChessBoard : MonoBehaviour
      chessPieces[previousPosition.x, previousPosition.y] = null;
      PositionSinglePiece(x, y);
 
+     passTheTurn();
      return true; 
     }
     private Vector2Int LookupTileIndex(GameObject hitInfo)
@@ -301,15 +301,21 @@ public class ChessBoard : MonoBehaviour
     private void Capture(int x, int y)
     {
         ChessPiece piece = chessPieces[x, y];
-        if((piece != null) && (piece.team != currentPlayer.getTeam()))
+
+        if(piece != null)
         {
-            Destroy(piece);
-            if(piece.type == chessPieceType.King)
+            if(piece.team != currentPlayer.getTeam())
             {
+              Destroy(piece);
+              if(piece.type == chessPieceType.King)
+              {
                 endGame();
                 return;
+              }
             }
         }
+
+        passTheTurn();
     }
 
     private void endGame()
@@ -328,18 +334,8 @@ public class ChessBoard : MonoBehaviour
         {
             Destroy(piece);
         }
-    }
-    
-    public void passTheTurn()
-    {
-        if(currentPlayer == whitePlayer)
-        {
-            currentPlayer = blackPlayer;
-        }
-        else
-        {
-            currentPlayer = whitePlayer;
-        }
+        SpawnAllPiece();
+        SpawnAllPiece();
     }
 
     public void UpdateBoardAfterMove(ChessPiece piece, Vector2Int newMove, Vector2Int oldLoc)
@@ -351,5 +347,17 @@ public class ChessBoard : MonoBehaviour
     public ChessPiece getPieceOnBoard(Vector2Int loc)
     {
         return chessPieces[loc.x, loc.y];
+    }
+
+    public void passTheTurn()
+    {
+        if(currentPlayer == whitePlayer)
+        {
+            currentPlayer = blackPlayer;
+        }
+        else
+        {
+            currentPlayer = whitePlayer;
+        }
     }
 }
