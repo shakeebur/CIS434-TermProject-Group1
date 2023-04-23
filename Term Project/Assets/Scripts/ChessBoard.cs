@@ -31,6 +31,7 @@ public class ChessBoard : MonoBehaviour
     private Camera currentCamera;
     private Vector2Int currentHover;
     private Vector3 bounds;
+    private bool isWhiteTurn;
 
     private ChessPiece selected;
     Vector2Int hitPosition;
@@ -38,6 +39,7 @@ public class ChessBoard : MonoBehaviour
     // Start is called before the first frame update
    void Start()
     {
+        isWhiteTurn = true;
         defaultColor = tileMaterial.color;
         hoverColor = Color.red;
 
@@ -101,7 +103,7 @@ public class ChessBoard : MonoBehaviour
                 if(chessPieces[hitPosition.x, hitPosition.y] != null)
                 {
                     //is it our turn
-                    if(true)
+                    if((chessPieces[hitPosition.x, hitPosition.y].team == 0 && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == 1 && !isWhiteTurn))
                    {
                        currentyDragging = chessPieces[hitPosition.x, hitPosition.y];
                    }
@@ -291,6 +293,8 @@ public class ChessBoard : MonoBehaviour
      chessPieces[x, y] = cp;
      chessPieces[previousPosition.x, previousPosition.y] = null;
      PositionSinglePiece(x, y);
+
+     isWhiteTurn = !isWhiteTurn;
 
      passTheTurn();
      return true; 

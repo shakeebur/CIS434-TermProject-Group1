@@ -110,7 +110,6 @@ public class Pawn : ChessPiece
         if(team == 0){ whiteMoves(); }
         else if (team == 1){ blackMoves(); }
         else { return null; }
-
         return validMoves;
     }
 }
