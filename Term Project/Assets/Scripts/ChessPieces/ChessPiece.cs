@@ -25,7 +25,6 @@ public abstract class ChessPiece : MonoBehaviour
 
     // White = 0, Black = 1
     public int team;
-
     public int currentX;
     public int currentY;
     private Vector3 desiredPosition;
@@ -59,6 +58,11 @@ public abstract class ChessPiece : MonoBehaviour
     
     public ChessBoard board;
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
     private void Awake()
     {
         set_hasBeenMoved(false);
