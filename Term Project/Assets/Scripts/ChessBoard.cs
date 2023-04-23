@@ -301,20 +301,23 @@ public class ChessBoard : MonoBehaviour
     private void Capture(int x, int y)
     {
         ChessPiece piece = chessPieces[x, y];
+
         if(piece != null)
         {
             if(piece.team != currentPlayer.getTeam())
             {
-                Destroy(piece);
-                if(piece.type == chessPieceType.King)
-                {
-                    endGame();
-                    return;
-                }
+              Destroy(piece);
+              if(piece.type == chessPieceType.King)
+              {
+                endGame();
+                return;
+              }
             }
         }
+
         passTheTurn();
     }
+
     private void endGame()
     {
         if (currentPlayer == whitePlayer)
@@ -334,7 +337,7 @@ public class ChessBoard : MonoBehaviour
         SpawnAllPiece();
         SpawnAllPiece();
     }
-    
+
     public void UpdateBoardAfterMove(ChessPiece piece, Vector2Int newMove, Vector2Int oldLoc)
     {
         chessPieces[oldLoc.x, oldLoc.y] = null;
