@@ -284,6 +284,8 @@ public class ChessBoard : MonoBehaviour
             {
                 return false;
             }
+
+            //if enemy piece
         }
 
      chessPieces[x, y] = cp;
