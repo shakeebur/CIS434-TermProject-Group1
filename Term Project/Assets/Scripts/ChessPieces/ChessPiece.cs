@@ -25,34 +25,6 @@ public abstract class ChessPiece : MonoBehaviour
 
     // White = 0, Black = 1
     public int team;
-    public int currentX;
-    public int currentY;
-    private Vector3 desiredPosition;
-    private Vector3 desiredScale = Vector3.one;
-
-    private void update()
-    {
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10);
-        transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * 10);
-    }
-
-    public virtual void SetPosition(Vector3 position, bool force = false)
-    {
-        desiredPosition = position;
-        if(force)
-        {
-            transform.position = desiredPosition;
-        }
-    }
-
-    public virtual void setScale(Vector3 scale, bool force = false)
-    {
-        desiredScale = scale;
-        if(force)
-        {
-            transform.localScale = desiredScale;
-        }
-    }
 
     public int currentX;
     public int currentY;
@@ -60,9 +32,6 @@ public abstract class ChessPiece : MonoBehaviour
     private bool hasBeenMoved;
     
     public ChessBoard board;
-
-
-
 
     //private Vector3 desiredPosition;
     //private Vector3 desiredScale;
