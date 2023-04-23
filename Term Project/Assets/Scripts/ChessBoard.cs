@@ -23,7 +23,6 @@ public class ChessBoard : MonoBehaviour
     private const int WHITETEAM = 0;
     private const int BLACKTEAM = 1;
 
-
     private ChessPiece[,] chessPieces;
     private ChessPiece currentyDragging;
     private const int Tile_Count_X = 8;
@@ -33,23 +32,14 @@ public class ChessBoard : MonoBehaviour
     private Vector2Int currentHover;
     private Vector3 bounds;
 
-    //private Text text;
-    private int whiteTurn = 1;
-    private int allowed;
-
     private ChessPiece selected;
     Vector2Int hitPosition;
 
     // Start is called before the first frame update
-
-    void Start()
-
    void Start()
-
     {
         defaultColor = tileMaterial.color;
         hoverColor = Color.red;
-
 
         startNewGame();
     }
@@ -70,9 +60,6 @@ public class ChessBoard : MonoBehaviour
     void Update()
     {
         //Implementing turns with ai
-
-        if(whiteTurn == 0)
-
         if(currentPlayer == blackPlayer)
         {
 
@@ -132,11 +119,7 @@ public class ChessBoard : MonoBehaviour
                bool validMove = MoveTo(currentyDragging, hitPosition.x, hitPosition.y);
                if (!validMove)
                 {
-
-                    currentyDragging.SetPosition(GetTileCenter(previousPosition.x, previousPosition.y));
-
                     currentyDragging.transform.position = GetTileCenter(previousPosition.x, previousPosition.y);
-
                     currentyDragging = null;
                }
                else
@@ -154,15 +137,6 @@ public class ChessBoard : MonoBehaviour
                 tiles[currentHover.x, currentHover.y].GetComponent<MeshRenderer>().material.color = defaultColor;
                 
                 currentHover = -Vector2Int.one;
-            }
-
-            if(currentyDragging && Input.GetMouseButtonUp(0))
-            {
-
-            if( currentyDragging && Input.GetMouseButtonUp(0))
-            {
-                currentyDragging.SetPosition(GetTileCenter(currentyDragging.currentX, currentyDragging.currentY));
-                currentyDragging = null;
             }
         }
         
@@ -224,35 +198,6 @@ public class ChessBoard : MonoBehaviour
     {
         chessPieces = new ChessPiece[Tile_Count_X, Tile_Count_Y];
 
-        int WhiteTeam = 0;
-        int BlackTeam = 1;
-
-        //White Team
-        chessPieces[0,0] = SpawnSinglePiece(chessPieceType.Rook, WhiteTeam);
-        chessPieces[1,0] = SpawnSinglePiece(chessPieceType.Knight, WhiteTeam);
-        chessPieces[2,0] = SpawnSinglePiece(chessPieceType.Bishop, WhiteTeam);
-        chessPieces[3,0] = SpawnSinglePiece(chessPieceType.Queen, WhiteTeam);
-        chessPieces[4,0] = SpawnSinglePiece(chessPieceType.King, WhiteTeam);
-        chessPieces[5,0] = SpawnSinglePiece(chessPieceType.Bishop, WhiteTeam);
-        chessPieces[6,0] = SpawnSinglePiece(chessPieceType.Knight, WhiteTeam);
-        chessPieces[7,0] = SpawnSinglePiece(chessPieceType.Rook, WhiteTeam);
-        for (int i = 0; i < Tile_Count_X; i++)
-        {
-            chessPieces[i,1] = SpawnSinglePiece(chessPieceType.Pawn, WhiteTeam);
-        }
-
-        //Black Team
-        chessPieces[0,7] = SpawnSinglePiece(chessPieceType.Rook, BlackTeam);
-        chessPieces[1,7] = SpawnSinglePiece(chessPieceType.Knight, BlackTeam);
-        chessPieces[2,7] = SpawnSinglePiece(chessPieceType.Bishop, BlackTeam);
-        chessPieces[3,7] = SpawnSinglePiece(chessPieceType.Queen, BlackTeam);
-        chessPieces[4,7] = SpawnSinglePiece(chessPieceType.King, BlackTeam);
-        chessPieces[5,7] = SpawnSinglePiece(chessPieceType.Bishop, BlackTeam);
-        chessPieces[6,7] = SpawnSinglePiece(chessPieceType.Knight, BlackTeam);
-        chessPieces[7,7] = SpawnSinglePiece(chessPieceType.Rook, BlackTeam);
-        for (int i = 0; i < Tile_Count_X; i++)
-        {
-            chessPieces[i,6] = SpawnSinglePiece(chessPieceType.Pawn, BlackTeam);
         //White Team
         chessPieces[0,0] = SpawnSinglePiece(chessPieceType.Rook, WHITETEAM);
         chessPieces[1,0] = SpawnSinglePiece(chessPieceType.Knight, WHITETEAM);
@@ -330,18 +275,6 @@ public class ChessBoard : MonoBehaviour
     {
      Vector2Int previousPosition = new Vector2Int(cp.currentX, cp.currentY);  
 
-    //is there a piece on the space
-    if(chessPieces[x, y] != null)
-    {
-        ChessPiece ocp = chessPieces[x, y];
-
-        if(cp.team == ocp.team)
-        {
-            return false;
-        }
-    }
-
-
      chessPieces[x, y] = cp;
      chessPieces[previousPosition.x, previousPosition.y] = null;
      PositionSinglePiece(x, y);
@@ -367,27 +300,6 @@ public class ChessBoard : MonoBehaviour
     
     private void Capture(int x, int y)
     {
-
-        if (allowed == 1)
-        {
-            ChessPiece piece = chessPieces[x, y];
-            if(piece != null)
-            {
-                Destroy(piece);
-                if(piece.type == chessPieceType.King)
-                {
-                    endGame();
-                    return;
-                }
-            }
-            whiteTurn = 0;
-
-        }
-
-    }
-    private void endGame()
-    {
-        if (whiteTurn == 1)
         ChessPiece piece = chessPieces[x, y];
 
         if(piece != null)
@@ -422,12 +334,6 @@ public class ChessBoard : MonoBehaviour
         {
             Destroy(piece);
         }
-        whiteTurn = 1;
-        SpawnAllPiece();
-        SpawnAllPiece();
-    }
-    
-
         SpawnAllPiece();
         SpawnAllPiece();
     }
