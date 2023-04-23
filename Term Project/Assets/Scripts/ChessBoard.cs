@@ -119,7 +119,7 @@ public class ChessBoard : MonoBehaviour
                bool validMove = MoveTo(currentyDragging, hitPosition.x, hitPosition.y);
                if (!validMove)
                 {
-                    currentyDragging.transform.position = GetTileCenter(previousPosition.x, previousPosition.y);
+                    currentyDragging.SetPosition(GetTileCenter(previousPosition.x, previousPosition.y));
                     currentyDragging = null;
                }
                else
@@ -274,6 +274,17 @@ public class ChessBoard : MonoBehaviour
     private bool MoveTo(ChessPiece cp, int x, int y)
     {
      Vector2Int previousPosition = new Vector2Int(cp.currentX, cp.currentY);  
+
+        //is there a piece on the space
+        if(chessPieces[x, y] != null)
+        {
+            ChessPiece ocp = chessPieces[x, y];
+
+            if(cp.team == ocp.team)
+            {
+                return false;
+            }
+        }
 
      chessPieces[x, y] = cp;
      chessPieces[previousPosition.x, previousPosition.y] = null;
