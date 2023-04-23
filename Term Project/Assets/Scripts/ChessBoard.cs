@@ -108,15 +108,17 @@ public class ChessBoard : MonoBehaviour
                        currentyDragging = chessPieces[hitPosition.x, hitPosition.y];
                    }
                 }
-                // else
-                // {
-                //     Capture(currentHover.x, currentHover.y);
-                // }
             }
             //release mouse button
            if (currentyDragging != null && Input.GetMouseButtonUp(0))
            {
-               Vector2Int previousPosition = new Vector2Int(currentyDragging.currentX, currentyDragging.currentY);
+                Vector2Int previousPosition = new Vector2Int(currentyDragging.currentX, currentyDragging.currentY);
+                ChessPiece enemy = null;
+
+               if(chessPieces[hitPosition.x, hitPosition.y] != null)
+               {
+                    enemy = chessPieces[hitPosition.x, hitPosition.y];
+               }
 
                bool validMove = MoveTo(currentyDragging, hitPosition.x, hitPosition.y);
                if (!validMove)
@@ -126,7 +128,9 @@ public class ChessBoard : MonoBehaviour
                }
                else
                {
-                currentyDragging = null;
+                    Capture(enemy);
+                    currentyDragging = null;
+                    passTheTurn();
                }
            }
         }      
@@ -297,7 +301,6 @@ public class ChessBoard : MonoBehaviour
 
         cp.move(new Vector2Int(x,y));
 
-        passTheTurn();
         return true; 
     }
 
@@ -327,25 +330,26 @@ public class ChessBoard : MonoBehaviour
        return -Vector2Int.one;
 
     }
-    
-    private void Capture(int x, int y)
-    {
-        ChessPiece piece = chessPieces[x, y];
 
+    // private void Capture(int x, int y)
+    private void Capture(ChessPiece piece)
+    {
         if(piece != null)
         {
             if(piece.team != currentPlayer.getTeam())
             {
                 if(piece.type == chessPieceType.King)
                 {
+                    destroyPiece(piece);
                     endGame();
                     return;
                 }
-                Destroy(piece);
+                else
+                {
+                    destroyPiece(piece);
+                }
             }
         }
-
-        passTheTurn();
     }
 
     private void endGame()
@@ -360,12 +364,13 @@ public class ChessBoard : MonoBehaviour
             //text.Text = "Black team Won!";
             Debug.Log("Black team Won!");
         }
+        /*
         foreach (ChessPiece piece in chessPieces)
         {
-            Destroy(piece);
+            if(piece != null)
+                destroyPiece(piece);
         }
-        SpawnAllPiece();
-        SpawnAllPiece();
+        */
     }
 
     public ChessPiece getPieceOnBoard(Vector2Int loc)
@@ -378,6 +383,12 @@ public class ChessBoard : MonoBehaviour
         {
             return chessPieces[loc.x, loc.y];
         }
+    }
+
+    public void destroyPiece(ChessPiece piece)
+    {
+        piece.gameObject.SetActive(false);
+        Destroy(piece);
     }
 
     public void passTheTurn()
