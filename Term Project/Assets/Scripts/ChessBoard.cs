@@ -38,6 +38,8 @@ public class ChessBoard : MonoBehaviour
     private ChessPiece selected;
     Vector2Int hitPosition;
 
+    [SerializeField] public EndScreen endScreen;
+
     // Start is called before the first frame update
    void Start()
     {
@@ -357,30 +359,30 @@ public class ChessBoard : MonoBehaviour
     public void endGame()
     {
         // TODO: For use in game-over dialog box
-        bool newGame = true;
+        int winner;
 
         if (currentPlayer == whitePlayer)
         {
             Debug.Log("White team Won!");
-            clearBoard(newGame);
+            winner = 0;
+            clearBoard(winner);
         }
         else
         {
             Debug.Log("Black team Won!");
-            clearBoard(newGame);
+            winner = 1;
+            clearBoard(winner);
         }
     }
 
-    public void clearBoard(bool newGame)
+    public void clearBoard(int winner)
     {
         foreach (ChessPiece piece in chessPieces)
         {
             if(piece != null)
                 destroyPiece(piece);
         }
-
-        SceneManager.LoadScene("Menu");
-        
+        endScreen.Setup(winner);
     }
 
     public ChessPiece getPieceOnBoard(Vector2Int loc)
