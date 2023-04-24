@@ -6,5 +6,5 @@
 - researched unity 
 - Set up development environment and tools
 ##week 3
-- unity avigation
+- unity navigation
 - slides 
