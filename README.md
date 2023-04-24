@@ -1,11 +1,6 @@
 # CIS434-TermProject-Group1
- Angelo_Figueroa
-started looking up tutorials for unity and getting ideas for chess game.
 
-Angelo - 4/14/2023
-Made board and coliders for each of the chess spaces
-Have it so that the space will light up when hovered over it(still need to fix a few tweaks)
+Group 1: Decided to create a 3D chess game using unity.
 
-
--Fabio: Started working on the project, getting familiar with unity.
- main
+The pieces of the board are generated once the game is started, each piece is assigned a team, black or white which then assigns
+the prefab material to each of the pieces. You can then enjoy a game of chess.
