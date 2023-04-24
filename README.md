@@ -5,3 +5,6 @@
 ## week 2
 - researched unity 
 - Set up development environment and tools
+##week 3
+- unity avigation
+- slides 
