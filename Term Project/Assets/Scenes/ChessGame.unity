@@ -563,7 +563,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 00:00:00
 --- !u!222 &1058446333
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -626,8 +626,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 1058446332}
-  timeLeftSeconds: 120
+  timeLeftSeconds: 300
   GameName: 
+  ChessBoard: {fileID: 801108692}
 --- !u!114 &1111350739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,8 +642,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 1347477081}
-  timeLeftSeconds: 120
+  timeLeftSeconds: 300
   GameName: 
+  ChessBoard: {fileID: 801108692}
 --- !u!114 &1111350740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -777,7 +779,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 00:00:00
 --- !u!222 &1347477082
 CanvasRenderer:
   m_ObjectHideFlags: 0

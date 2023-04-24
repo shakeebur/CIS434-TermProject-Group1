@@ -19,9 +19,9 @@ public class ChessBoard : MonoBehaviour
     private Color defaultColor;
     private Color hoverColor;
 
-    private Player whitePlayer;
-    private Player blackPlayer;
-    private Player currentPlayer;
+    static public Player whitePlayer;
+    static public Player blackPlayer;
+    static public Player currentPlayer;
     private const int WHITETEAM = 0;
     private const int BLACKTEAM = 1;
 
@@ -354,7 +354,7 @@ public class ChessBoard : MonoBehaviour
         }
     }
 
-    private void endGame()
+    public void endGame()
     {
         // TODO: For use in game-over dialog box
         bool newGame = true;

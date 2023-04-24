@@ -8,35 +8,42 @@ public class TimeControl : MonoBehaviour
     public float timeLeftSeconds = 3F;
     public static bool TimesUp = false;
     public string GameName;
+
+    public ChessBoard ChessBoard;
+
     private void Start()
     {
+        
         // Starts the timer automatically
         TimesUp = false;
     }
     void Update()
     {
-       float t = timeLeftSeconds -= Time.deltaTime;
+       if (ChessBoard.currentPlayer == ChessBoard.whitePlayer)
+        {
+            float t = timeLeftSeconds -= Time.deltaTime;
 
-       string minutes = ((int) t / 60).ToString("00");
-       string seconds = (t % 60).ToString("00");
-       string milliseconds = ((int) (t*100f) % 100).ToString("00");
+            string minutes = ((int) t / 60).ToString("00");
+            string seconds = (t % 60).ToString("00");
+            string milliseconds = ((int) (t*100f) % 100).ToString("00");
 
-       timerText.text = minutes + ":" + seconds + ":" + milliseconds;
+            timerText.text = minutes + ":" + seconds + ":" + milliseconds;
 
-       if (timeLeftSeconds <= 0)
-       {
-        timeLeftSeconds = 0;
-        timerText.text = minutes + ":" + seconds;
-        TimesUp = true;
-       }
-
+            if (timeLeftSeconds <= 0)
+            {
+                timeLeftSeconds = 0;
+                timerText.text = minutes + ":" + seconds;
+                TimesUp = true;
+            }
+        }
     }
     void OnGUI()
     {
         if(TimesUp == true)
         {
+            ChessBoard.currentPlayer = ChessBoard.blackPlayer;
             //Put game over here
-
+            ChessBoard.endGame();
         }
     }
 }
