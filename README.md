@@ -5,6 +5,9 @@
 ## week 2
 - researched unity 
 - Set up development environment and tools
-##week 3
+## week 3
 - unity navigation
 - slides 
+## week 4
+- final presentation slides (challenges faced, how we overcame it)
+- final report (personal contributions, project timeline)
